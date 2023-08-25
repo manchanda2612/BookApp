@@ -41,7 +41,7 @@ class BookMapper @Inject constructor() {
                     volumeInfo.authors?.joinToString(", ").orEmpty(),
                     volumeInfo.publisher.orEmpty(),
                     volumeInfo.publishedDate.orEmpty(),
-                       volumeInfo.imageLinks?.thumbnail?.replace("http://", "https://").orEmpty(),
+                    volumeInfo.imageLinks?.thumbnail?.replace("http://", "https://").orEmpty(),
                     volumeInfo.ratingsCount.orEmpty()
                 )
             }

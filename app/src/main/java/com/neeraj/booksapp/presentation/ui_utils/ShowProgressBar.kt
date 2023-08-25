@@ -1,15 +1,15 @@
-package com.neeraj.booksapp.presentation.common
+package com.neeraj.booksapp.presentation.ui_utils
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Text
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 
 @Composable
-fun ShowErrorMessage(message : String) {
+fun ShowProgressBar() {
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        Text(text = message)
+        CircularProgressIndicator()
     }
 }

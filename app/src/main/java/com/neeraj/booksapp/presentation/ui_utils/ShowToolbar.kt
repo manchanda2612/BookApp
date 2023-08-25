@@ -1,4 +1,4 @@
-package com.neeraj.booksapp.presentation.common
+package com.neeraj.booksapp.presentation.ui_utils
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons

@@ -29,22 +29,22 @@ import java.nio.file.Paths
 class BookDetailViewModelTest {
 
     // Mock dependencies
-    private val mBookDetailUseCase: GetBookDetailUseCase = mockk()
-    private lateinit var mViewModel: BookDetailViewModel
-    private val mTestDispatcher = StandardTestDispatcher()
-    private val mBookDetailModelFile = "src/test/res/bookDetailModel.json"
-    private val mBookId = "CzCWDwAAQBAJ"
+    private val bookDetailUseCase: GetBookDetailUseCase = mockk()
+    private lateinit var viewModel: BookDetailViewModel
+    private val testDispatcher = StandardTestDispatcher()
+    private val bookDetailModelFile = "src/test/res/bookDetailModel.json"
+    private val bookId = "CzCWDwAAQBAJ"
 
     @Before
     fun setup() {
-        Dispatchers.setMain(mTestDispatcher)
-        mViewModel = BookDetailViewModel(mBookDetailUseCase)
+        Dispatchers.setMain(testDispatcher)
+        viewModel = BookDetailViewModel(bookDetailUseCase)
     }
 
     @After
     fun windUp() {
         Dispatchers.resetMain()
-        mTestDispatcher.cancel()
+        testDispatcher.cancel()
     }
 
     private suspend fun readJSONFromResource(resourceName: String): String {
@@ -69,17 +69,17 @@ class BookDetailViewModelTest {
     @Test
     fun `when getBookDetail is called, it should call bookDetailUseCase`() = runTest {
 
-        val jsonString = readJSONFromResource(mBookDetailModelFile)
+        val jsonString = readJSONFromResource(bookDetailModelFile)
         val result = parseJSONToBookDetail(jsonString)
 
         // Given
-        coEvery { mBookDetailUseCase.invoke(mBookId) } returns result
+        coEvery { bookDetailUseCase.invoke(bookId) } returns result
 
         // When
-        mViewModel.getBookDetail(mBookId)
+        viewModel.getBookDetail(bookId)
 
         // Then
-        coVerify { mBookDetailUseCase.invoke(mBookId) }
+        coVerify { bookDetailUseCase.invoke(bookId) }
     }
 
    /* @Test

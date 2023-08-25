@@ -1,6 +1,5 @@
 package com.neeraj.booksapp
 
-import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.neeraj.booksapp.common.Resource
@@ -27,22 +26,22 @@ import java.nio.file.Paths
 @ExperimentalCoroutinesApi
 class BookListViewModelTest {
 
-    private lateinit var mGetBookListUseCase : GetBookListUseCase
-    private lateinit var mViewModel : BookListViewModel
-    private val mTestDispatcher = StandardTestDispatcher()
-    private val mBookListModelFile = "src/test/res/bookListModel.json"
+    private lateinit var getBookListUseCase : GetBookListUseCase
+    private lateinit var viewModel : BookListViewModel
+    private val testDispatcher = StandardTestDispatcher()
+    private val bookListModelFile = "src/test/res/bookListModel.json"
 
     @Before
     fun setUp() {
-        Dispatchers.setMain(mTestDispatcher)
-        mGetBookListUseCase = mockk()
-        mViewModel = BookListViewModel(mGetBookListUseCase)
+        Dispatchers.setMain(testDispatcher)
+        getBookListUseCase = mockk()
+        viewModel = BookListViewModel(getBookListUseCase)
     }
 
     @After
     fun windUp() {
         Dispatchers.resetMain()
-        mTestDispatcher.cancel()
+        testDispatcher.cancel()
     }
 
     private suspend fun readJSONFromResource(resourceName: String): String {
@@ -69,10 +68,8 @@ class BookListViewModelTest {
 
 
         val jsonString = String(withContext(Dispatchers.IO) {
-            Files.readAllBytes(Paths.get(mBookListModelFile))
+            Files.readAllBytes(Paths.get(bookListModelFile))
         })
-
-
 
         val result = try {
             val gson = Gson()
@@ -83,13 +80,13 @@ class BookListViewModelTest {
             Resource.Error(e.message ?: "An error occurred while parsing JSON")
         }
         // Given
-        coEvery { mGetBookListUseCase() } returns result
+        coEvery { getBookListUseCase.invoke() } returns result
 
         // When
-        mViewModel = BookListViewModel(mGetBookListUseCase)
+        viewModel = BookListViewModel(getBookListUseCase)
 
         // Then
-        coVerify { mGetBookListUseCase() }
+        coVerify { getBookListUseCase.invoke() }
     }
 
 

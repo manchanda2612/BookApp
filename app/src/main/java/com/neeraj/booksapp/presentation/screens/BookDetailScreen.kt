@@ -13,12 +13,12 @@ import com.neeraj.booksapp.presentation.view_model.BookDetailViewModel
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.neeraj.booksapp.presentation.common.DisplayBookImageFromUrl
-import com.neeraj.booksapp.presentation.common.ShowProgressBar
-import com.neeraj.booksapp.presentation.common.ShowErrorMessage
-import com.neeraj.booksapp.presentation.common.ShowToolbar
+import com.neeraj.booksapp.presentation.ui_utils.Dimens
+import com.neeraj.booksapp.presentation.ui_utils.DisplayBookImageFromUrl
+import com.neeraj.booksapp.presentation.ui_utils.ShowProgressBar
+import com.neeraj.booksapp.presentation.ui_utils.ShowErrorMessage
+import com.neeraj.booksapp.presentation.ui_utils.ShowToolbar
 
 
 /**
@@ -29,7 +29,7 @@ import com.neeraj.booksapp.presentation.common.ShowToolbar
 fun BookDetailScreen(bookId : String, navController: NavController) {
 
     val viewModel: BookDetailViewModel = hiltViewModel()
-    val bookDetailInfo = viewModel.mBookDetail.collectAsState()
+    val bookDetailInfo = viewModel.bookDetail.collectAsState()
 
     LaunchedEffect(Unit) {
         viewModel.getBookDetail(bookId)
@@ -41,7 +41,6 @@ fun BookDetailScreen(bookId : String, navController: NavController) {
         when (bookDetailInfo.value) {
             is Resource.Loading -> ShowProgressBar()
             is Resource.Success -> bookDetailInfo.value.data?.let {ShowBookDetailScreen(it) }
-
             is Resource.Error -> bookDetailInfo.value.message?.let { ShowErrorMessage(it) }
             is Resource.InternetError -> ShowErrorMessage(stringResource(R.string.please_check_your_internet_connection))
             is Resource.IOError -> bookDetailInfo.value.message?.let { ShowErrorMessage(it) }
@@ -52,30 +51,30 @@ fun BookDetailScreen(bookId : String, navController: NavController) {
 @Composable
 fun ShowBookDetailScreen(bookDetailModel: BookDetailModel) {
 
-        Column(modifier = Modifier.padding(10.dp)) {
+        Column(modifier = Modifier.padding(Dimens.ten_dp)) {
             DisplayBookImageFromUrl(bookDetailModel.thumbnail,
                 Modifier
                     .fillMaxWidth()
-                    .height(200.dp),
+                    .height(Dimens.two_hundred_dp),
                 stringResource(R.string.book_image)
             )
 
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(Dimens.eight_dp))
 
             Text(
                 text = bookDetailModel.bookTitle,
                 style = MaterialTheme.typography.headlineLarge
             )
 
-            Spacer(modifier = Modifier.height(4.dp))
+            Spacer(modifier = Modifier.height(Dimens.four_dp))
 
             Text(
                 text = bookDetailModel.bookSubtitle,
                 style = MaterialTheme.typography.headlineSmall
             )
 
-            Spacer(modifier = Modifier.height(4.dp))
+            Spacer(modifier = Modifier.height(Dimens.four_dp))
 
             Text(
                 text = "Written By: ${bookDetailModel.bookAuthors}",
@@ -83,14 +82,14 @@ fun ShowBookDetailScreen(bookDetailModel: BookDetailModel) {
             )
 
 
-            Spacer(modifier = Modifier.width(4.dp))
+            Spacer(modifier = Modifier.width(Dimens.four_dp))
             Text(
                 text = "Published By: ${bookDetailModel.publisher}",
                 style = MaterialTheme.typography.bodyMedium,
             )
 
 
-            Spacer(modifier = Modifier.height(4.dp))
+            Spacer(modifier = Modifier.height(Dimens.four_dp))
 
             Text(
                 text = "Published On: ${bookDetailModel.publishDate}",

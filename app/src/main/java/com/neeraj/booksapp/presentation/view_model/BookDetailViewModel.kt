@@ -20,14 +20,14 @@ import javax.inject.Inject
 @HiltViewModel
 class BookDetailViewModel @Inject constructor(private val bookDetailUseCase: GetBookDetailUseCase) : ViewModel()  {
 
-    private val mBookDetailResponse = MutableStateFlow<Resource<BookDetailModel>>(Resource.Loading())
-    val mBookDetail : StateFlow<Resource<BookDetailModel>>
-        get() = mBookDetailResponse
+    private val bookDetailResponse = MutableStateFlow<Resource<BookDetailModel>>(Resource.Loading())
+    val bookDetail : StateFlow<Resource<BookDetailModel>>
+        get() = bookDetailResponse
 
 
     fun getBookDetail(bookId : String) {
         viewModelScope.launch(Dispatchers.Default) {
-            mBookDetailResponse.value = bookDetailUseCase(bookId)
+            bookDetailResponse.value = bookDetailUseCase(bookId)
         }
     }
 

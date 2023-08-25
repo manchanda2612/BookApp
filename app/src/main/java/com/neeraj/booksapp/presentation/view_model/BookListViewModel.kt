@@ -21,8 +21,8 @@ import javax.inject.Inject
 @HiltViewModel
 class BookListViewModel @Inject constructor(private val getBookListUseCase: GetBookListUseCase) : ViewModel() {
 
-    private val mBookListResponse = MutableStateFlow<Resource<List<BooksListModel>>>(Resource.Loading())
-    val mBookListViewModel : StateFlow<Resource<List<BooksListModel>>> get() = mBookListResponse
+    private val bookListResponse = MutableStateFlow<Resource<List<BooksListModel>>>(Resource.Loading())
+    val bookListViewModel : StateFlow<Resource<List<BooksListModel>>> get() = bookListResponse
 
     init {
         getBookList()
@@ -31,7 +31,7 @@ class BookListViewModel @Inject constructor(private val getBookListUseCase: GetB
 
     private fun getBookList() {
         viewModelScope.launch(Dispatchers.Default){
-            mBookListResponse.value = getBookListUseCase()
+            bookListResponse.value = getBookListUseCase()
         }
     }
 

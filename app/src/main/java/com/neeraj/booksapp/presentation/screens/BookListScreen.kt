@@ -9,9 +9,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-
 import com.neeraj.booksapp.domain.model.BooksListModel
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.items
@@ -23,11 +21,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.navigation.NavController
 import com.neeraj.booksapp.R
 import com.neeraj.booksapp.common.Resource
-import com.neeraj.booksapp.presentation.common.DisplayBookImageFromUrl
-import com.neeraj.booksapp.presentation.common.ShowProgressBar
-import com.neeraj.booksapp.presentation.common.ShowErrorMessage
-import com.neeraj.booksapp.presentation.common.ShowToolbar
+import com.neeraj.booksapp.presentation.ui_utils.DisplayBookImageFromUrl
+import com.neeraj.booksapp.presentation.ui_utils.ShowProgressBar
+import com.neeraj.booksapp.presentation.ui_utils.ShowErrorMessage
+import com.neeraj.booksapp.presentation.ui_utils.ShowToolbar
 import com.neeraj.booksapp.presentation.route.Routes
+import com.neeraj.booksapp.presentation.ui_utils.Dimens
 import com.neeraj.booksapp.presentation.view_model.BookListViewModel
 
 
@@ -38,21 +37,20 @@ import com.neeraj.booksapp.presentation.view_model.BookListViewModel
 @Composable
 fun BookListScreen(navController: NavController) {
 
-    val mBookViewModel: BookListViewModel = hiltViewModel()
-    val mBookList = mBookViewModel.mBookListViewModel.collectAsState()
-
+    val bookViewModel: BookListViewModel = hiltViewModel()
+    val bookList = bookViewModel.bookListViewModel.collectAsState()
 
 
     Column(
         modifier = Modifier.fillMaxWidth()
     ) {
         ShowToolbar(stringResource(R.string.book_listing))
-        when (mBookList.value) {
+        when (bookList.value) {
             is Resource.Loading -> ShowProgressBar()
-            is Resource.Success -> mBookList.value.data?.let { ShowBookList(it, navController) }
-            is Resource.Error -> mBookList.value.message?.let { ShowErrorMessage(it) }
+            is Resource.Success -> bookList.value.data?.let { ShowBookList(it, navController) }
+            is Resource.Error -> bookList.value.message?.let { ShowErrorMessage(it) }
             is Resource.InternetError -> ShowErrorMessage(stringResource(R.string.please_check_your_internet_connection))
-            is Resource.IOError -> mBookList.value.message?.let { ShowErrorMessage(it) }
+            is Resource.IOError -> bookList.value.message?.let { ShowErrorMessage(it) }
         }
     }
 }
@@ -74,16 +72,16 @@ fun ShowBookList(bookList: List<BooksListModel>, navController: NavController) {
 fun ItemCard(book: BooksListModel, navController: NavController) {
         Card(
             modifier = Modifier
-                .padding(10.dp)
+                .padding(Dimens.ten_dp)
                 .clickable { onClick(book, navController) }
                 .fillMaxWidth(),
             shape = MaterialTheme.shapes.medium
         ) {
-            Column(modifier = Modifier.padding(10.dp)) {
+            Column(modifier = Modifier.padding(Dimens.ten_dp)) {
                 DisplayBookImageFromUrl(book.smallThumbnail, Modifier
                     .fillMaxWidth()
-                    .height(100.dp)
-                    .padding(vertical = 4.dp),
+                    .height(Dimens.hundred_dp)
+                    .padding(vertical = Dimens.four_dp),
                     stringResource(R.string.book_image)
                     )
                 Text(
@@ -92,7 +90,7 @@ fun ItemCard(book: BooksListModel, navController: NavController) {
                     textAlign = TextAlign.Center,
                     modifier = Modifier.fillMaxWidth()
                 )
-                Spacer(modifier = Modifier.height(10.dp))
+                Spacer(modifier = Modifier.height(Dimens.ten_dp))
                 if (book.bookAuthor.isNotEmpty()) {
                     Text(
                         text = "Written By: " + book.bookAuthor,
@@ -100,7 +98,7 @@ fun ItemCard(book: BooksListModel, navController: NavController) {
                         textAlign = TextAlign.Center,
                         modifier = Modifier.fillMaxWidth()
                     )
-                    Spacer(modifier = Modifier.height(10.dp))
+                    Spacer(modifier = Modifier.height(Dimens.ten_dp))
                 }
             }
         }
