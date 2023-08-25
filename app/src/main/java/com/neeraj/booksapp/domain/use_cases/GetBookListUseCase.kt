@@ -12,8 +12,6 @@ import javax.inject.Inject
  */
 class GetBookListUseCase @Inject constructor (private val bookRepository: BookRepository) {
 
-    suspend operator fun invoke() : Resource<List<BooksListModel>> {
-        return bookRepository.getBooksList()
-    }
+    suspend operator fun invoke() : Resource<List<BooksListModel>> = bookRepository.getBooksList()
 
 }

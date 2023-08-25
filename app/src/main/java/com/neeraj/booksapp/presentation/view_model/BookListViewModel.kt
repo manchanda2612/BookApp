@@ -22,7 +22,7 @@ import javax.inject.Inject
 class BookListViewModel @Inject constructor(private val getBookListUseCase: GetBookListUseCase) : ViewModel() {
 
     private val mBookListResponse = MutableStateFlow<Resource<List<BooksListModel>>>(Resource.Loading())
-    val mBookList : StateFlow<Resource<List<BooksListModel>>> get() = mBookListResponse
+    val mBookListViewModel : StateFlow<Resource<List<BooksListModel>>> get() = mBookListResponse
 
     init {
         getBookList()

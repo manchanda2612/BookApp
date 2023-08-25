@@ -18,12 +18,12 @@ class BookMapper @Inject constructor() {
         var id: String
         booksListResponseModel.items?.forEach { item ->
             item.volumeInfo?.let { volumeInfo ->
-                id = item.id!!
+                id = item.id
                 val book = BooksListModel(
                     id,
                     volumeInfo.title.orEmpty(),
                     volumeInfo.authors?.joinToString(", ").orEmpty(),
-                    volumeInfo.imageLinks?.smallThumbnail.orEmpty()
+                    volumeInfo.imageLinks?.thumbnail?.replace("http://", "https://").orEmpty()
                 )
                 book.let { bookList.add(it) }
             }
@@ -41,7 +41,7 @@ class BookMapper @Inject constructor() {
                     volumeInfo.authors?.joinToString(", ").orEmpty(),
                     volumeInfo.publisher.orEmpty(),
                     volumeInfo.publishedDate.orEmpty(),
-                    volumeInfo.imageLinks?.smallThumbnail.orEmpty(),
+                       volumeInfo.imageLinks?.thumbnail?.replace("http://", "https://").orEmpty(),
                     volumeInfo.ratingsCount.orEmpty()
                 )
             }

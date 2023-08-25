@@ -7,7 +7,6 @@ import com.neeraj.booksapp.data.network.ApiService
 import com.neeraj.booksapp.domain.model.BookDetailModel
 import com.neeraj.booksapp.domain.model.BooksListModel
 import com.neeraj.booksapp.domain.respository.BookRepository
-import java.io.IOException
 import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -40,8 +39,8 @@ class BookRepositoryImpl @Inject constructor(
                             bookListResponse.errorBody()?.string()
                         )
                     }
-                } catch (ioException: IOException) {
-                    Resource.Error(ioException.message)
+                } catch (exception: Exception) {
+                    Resource.Error(exception.message)
                 }
             } else {
                 Resource.InternetError()
@@ -74,8 +73,8 @@ class BookRepositoryImpl @Inject constructor(
                         bookDetailResponse.errorBody()?.string()
                     )
                 }
-            } catch (ioException: IOException) {
-                return@coroutineScope Resource.Error(ioException.message)
+            } catch (exception: Exception) {
+                return@coroutineScope Resource.Error(exception.message)
             }
         }
     }

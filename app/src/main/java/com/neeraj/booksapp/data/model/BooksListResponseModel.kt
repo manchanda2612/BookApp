@@ -18,7 +18,7 @@ data class BooksListResponseModel (
 
         @SerializedName("id")
         @Expose
-        var id: String? = null,
+        var id: String,
 
         @SerializedName("volumeInfo")
         @Expose

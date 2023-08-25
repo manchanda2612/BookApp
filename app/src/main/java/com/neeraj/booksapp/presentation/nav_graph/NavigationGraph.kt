@@ -27,7 +27,7 @@ fun NavigationGraph() {
 
         composable(Routes.BookDetailScreen.route + "/{bookId}") { navBackStackEntry ->
             val bookId = navBackStackEntry.arguments?.getString("bookId")
-            bookId?.let { BookDetailScreen(it) }
+            bookId?.let { BookDetailScreen(it, navController) }
         }
     }
 }
