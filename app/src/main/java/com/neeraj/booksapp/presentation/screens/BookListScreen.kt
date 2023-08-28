@@ -70,6 +70,8 @@ fun ShowBookList(bookList: List<BooksListModel>, navController: NavController) {
 
 @Composable
 fun ItemCard(book: BooksListModel, navController: NavController) {
+
+    Column(modifier = Modifier.padding(Dimens.five_dp)) {
         Card(
             modifier = Modifier
                 .padding(Dimens.ten_dp)
@@ -78,12 +80,13 @@ fun ItemCard(book: BooksListModel, navController: NavController) {
             shape = MaterialTheme.shapes.medium
         ) {
             Column(modifier = Modifier.padding(Dimens.ten_dp)) {
-                DisplayBookImageFromUrl(book.smallThumbnail, Modifier
-                    .fillMaxWidth()
-                    .height(Dimens.hundred_dp)
-                    .padding(vertical = Dimens.four_dp),
+                DisplayBookImageFromUrl(
+                    book.smallThumbnail, Modifier
+                        .fillMaxWidth()
+                        .height(Dimens.hundred_dp)
+                        .padding(vertical = Dimens.four_dp),
                     stringResource(R.string.book_image)
-                    )
+                )
                 Text(
                     text = book.bookTitle,
                     style = MaterialTheme.typography.headlineMedium,
@@ -103,6 +106,7 @@ fun ItemCard(book: BooksListModel, navController: NavController) {
             }
         }
     }
+}
 
 
 fun onClick(book: BooksListModel, navController: NavController) {

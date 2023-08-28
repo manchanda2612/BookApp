@@ -44,27 +44,8 @@ class BookListViewModelTest {
         testDispatcher.cancel()
     }
 
-    private suspend fun readJSONFromResource(resourceName: String): String {
-        return  String(withContext(Dispatchers.IO) {
-            Files.readAllBytes(Paths.get(resourceName))
-        })
-    }
-
-    private suspend fun parseJSONToBookList(jsonString: String): Resource<List<BooksListModel>> {
-        return withContext(Dispatchers.Default) {
-            try {
-                val gson = Gson()
-                val listType = object : TypeToken<List<BooksListModel>>() {}.type
-                val bookList = gson.fromJson<List<BooksListModel>>(jsonString, listType)
-                Resource.Success(bookList)
-            } catch (e: Exception) {
-                Resource.Error(e.message ?: "An error occurred while parsing JSON")
-            }
-        }
-    }
-
     @Test
-    fun `when mViewModel is created, it should call mGetBookListUseCase`() = runTest {
+    fun `when viewModel is created, it should call getBookListUseCase`() = runTest {
 
 
         val jsonString = String(withContext(Dispatchers.IO) {

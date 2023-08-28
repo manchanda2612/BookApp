@@ -2,11 +2,11 @@
 The "BookApp" is a mobile application designed to provide users with a seamless experience of exploring and discovering books. The app has two primary screens: a book listing screen and a book detail screen.
 
 Book Listing Screen:
-The book listing screen is the initial landing page of the app. It presents users with a curated list of books, allowing them to browse through available titles quickly. Each book is represented as a card or item, displaying essential information such as the book's title, author(s), cover image, and potentially a brief description. Users can scroll through the list to view various books and get a sense of what's available.
+The book listing screen is the initial landing page of the app. Each book is represented as a card or item, displaying essential information such as the book's title, author(s), cover image, and potentially a brief description. Users can scroll through the list to view various books and get a sense of what's available.
 
 Key features and elements of the book listing screen:
 
-List of books: Displayed as a grid or a list, showcasing multiple books simultaneously.
+List of books: Displayed as a list, showcasing multiple books simultaneously.
 Book cards/items: Each book card includes details like the title, author(s), and cover image.
 Clickable items: Users can tap on a book card to navigate to the book detail screen.
 Loading indicators: Displayed when fetching book data from a remote source.
