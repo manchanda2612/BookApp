@@ -10,16 +10,4 @@ import dagger.hilt.android.HiltAndroidApp
 @HiltAndroidApp
 class BookApplication : Application() {
 
-    init {
-        instance = this
-    }
-
-    companion object {
-
-        private var instance: BookApplication? = null
-
-        fun applicationContext(): BookApplication {
-            return instance as BookApplication
-        }
-    }
 }

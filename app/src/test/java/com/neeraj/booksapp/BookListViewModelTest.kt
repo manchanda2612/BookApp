@@ -1,14 +1,17 @@
 package com.neeraj.booksapp
 
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
-import com.neeraj.booksapp.common.Resource
-import com.neeraj.booksapp.domain.model.BooksListModel
-import com.neeraj.booksapp.domain.use_cases.GetBookListUseCase
-import com.neeraj.booksapp.presentation.view_model.BookListViewModel
+import com.neeraj.booksapp.common.Constants
+import com.neeraj.booksapp.common.DataError
+import com.neeraj.booksapp.common.Resources
+import com.neeraj.booksapp.domain.usecases.GetBookListUseCase
+import com.neeraj.booksapp.presentation.viewmodel.BookListViewModel
+import com.neeraj.booksapp.testutil.TestUtils
+import com.neeraj.booksapp.testutil.bookListModelFile
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
+import junit.framework.TestCase.assertEquals
+import junit.framework.TestCase.assertTrue
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.cancel
@@ -16,12 +19,9 @@ import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
-import kotlinx.coroutines.withContext
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
-import java.nio.file.Files
-import java.nio.file.Paths
 
 @ExperimentalCoroutinesApi
 class BookListViewModelTest {
@@ -29,7 +29,6 @@ class BookListViewModelTest {
     private lateinit var getBookListUseCase : GetBookListUseCase
     private lateinit var viewModel : BookListViewModel
     private val testDispatcher = StandardTestDispatcher()
-    private val bookListModelFile = "src/test/res/bookListModel.json"
 
     @Before
     fun setUp() {
@@ -39,36 +38,74 @@ class BookListViewModelTest {
     }
 
     @After
-    fun windUp() {
+    fun tearDown() {
         Dispatchers.resetMain()
         testDispatcher.cancel()
     }
 
+
+     @Test
+     fun `when viewModel is created, it should call getBookListUseCase`() = runTest {
+
+         // Given
+         coEvery { getBookListUseCase() } returns TestUtils.parseJSONToBookList(TestUtils.readJSONFromResource(bookListModelFile))
+
+         // When
+         viewModel = BookListViewModel(getBookListUseCase)
+
+         // Then
+         coVerify { getBookListUseCase() }
+     }
+
+
     @Test
-    fun `when viewModel is created, it should call getBookListUseCase`() = runTest {
+    fun `when getBookListUseCase returns success, bookListViewModel should have success state`() =
+        runTest {
 
+            val bookList = TestUtils.parseJSONToBookList(TestUtils.readJSONFromResource(bookListModelFile))
 
-        val jsonString = String(withContext(Dispatchers.IO) {
-            Files.readAllBytes(Paths.get(bookListModelFile))
-        })
+            // Given
+            coEvery { getBookListUseCase.invoke() } returns bookList
 
-        val result = try {
-            val gson = Gson()
-            val listType = object : TypeToken<List<BooksListModel>>() {}.type
-            val bookList = gson.fromJson<List<BooksListModel>>(jsonString, listType)
-            Resource.Success(bookList)
-        } catch (e: Exception) {
-            Resource.Error(e.message ?: "An error occurred while parsing JSON")
+            // When
+            viewModel = BookListViewModel(getBookListUseCase)
+
+            // Then
+            viewModel.bookListViewModel.collect { result ->
+                assertTrue(result is Resources.Success)
+                assertEquals(bookList, result)
+            }
         }
-        // Given
-        coEvery { getBookListUseCase.invoke() } returns result
-
-        // When
-        viewModel = BookListViewModel(getBookListUseCase)
-
-        // Then
-        coVerify { getBookListUseCase.invoke() }
-    }
 
 
+    @Test
+    fun `when getBookListUseCase returns loading, mBookList should have loading state`() =
+        runTest {
+            // Given
+            coEvery { getBookListUseCase.invoke() } returns Resources.Loading
+
+            // When
+            viewModel = BookListViewModel(getBookListUseCase)
+
+            // Then
+            viewModel.bookListViewModel.collect { result ->
+                assertTrue(result is Resources.Loading)
+            }
+        }
+
+    @Test
+    fun `when getBookListUseCase returns error, bookListViewModel should have error state`() =
+        runTest {
+            // Given
+            coEvery { getBookListUseCase.invoke() } returns Resources.Failure(DataError(Constants.ErrorMessage))
+
+            // When
+            viewModel = BookListViewModel(getBookListUseCase)
+
+            // Then
+            viewModel.bookListViewModel.collect { result ->
+                assertTrue(result is Resources.Failure)
+                assertEquals(Constants.ErrorMessage, (result as Resources.Failure).exception.message)
+            }
+        }
 }

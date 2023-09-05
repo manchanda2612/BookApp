@@ -30,8 +30,6 @@ object DataModule {
             .create(ApiService::class.java)
     }
 
-
-
     @Provides
     fun provideBookRepository(apiService: ApiService, bookMapper: BookMapper) : BookRepository {
         return BookRepositoryImpl(apiService, bookMapper)

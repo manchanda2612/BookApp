@@ -16,18 +16,21 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.navigation.NavController
+import coil.request.CachePolicy
+import coil.size.Scale
 import com.neeraj.booksapp.R
-import com.neeraj.booksapp.common.Resource
-import com.neeraj.booksapp.presentation.ui_utils.DisplayBookImageFromUrl
-import com.neeraj.booksapp.presentation.ui_utils.ShowProgressBar
-import com.neeraj.booksapp.presentation.ui_utils.ShowErrorMessage
-import com.neeraj.booksapp.presentation.ui_utils.ShowToolbar
+import com.neeraj.booksapp.common.Resources
+import com.neeraj.booksapp.presentation.uiutils.DisplayBookImageFromUrl
+import com.neeraj.booksapp.presentation.uiutils.ShowProgressBar
+import com.neeraj.booksapp.presentation.uiutils.ShowErrorMessage
+import com.neeraj.booksapp.presentation.uiutils.ShowToolbar
 import com.neeraj.booksapp.presentation.route.Routes
-import com.neeraj.booksapp.presentation.ui_utils.Dimens
-import com.neeraj.booksapp.presentation.view_model.BookListViewModel
+import com.neeraj.booksapp.presentation.uiutils.Dimens
+import com.neeraj.booksapp.presentation.viewmodel.BookListViewModel
 
 
 /**
@@ -46,11 +49,9 @@ fun BookListScreen(navController: NavController) {
     ) {
         ShowToolbar(stringResource(R.string.book_listing))
         when (bookList.value) {
-            is Resource.Loading -> ShowProgressBar()
-            is Resource.Success -> bookList.value.data?.let { ShowBookList(it, navController) }
-            is Resource.Error -> bookList.value.message?.let { ShowErrorMessage(it) }
-            is Resource.InternetError -> ShowErrorMessage(stringResource(R.string.please_check_your_internet_connection))
-            is Resource.IOError -> bookList.value.message?.let { ShowErrorMessage(it) }
+            is Resources.Loading -> ShowProgressBar()
+            is Resources.Success -> ShowBookList((bookList.value as Resources.Success<List<BooksListModel>>).data, navController)
+            is Resources.Failure -> ShowErrorMessage(bookList.value.toString())
         }
     }
 }
@@ -81,11 +82,15 @@ fun ItemCard(book: BooksListModel, navController: NavController) {
         ) {
             Column(modifier = Modifier.padding(Dimens.ten_dp)) {
                 DisplayBookImageFromUrl(
-                    book.smallThumbnail, Modifier
-                        .fillMaxWidth()
-                        .height(Dimens.hundred_dp)
-                        .padding(vertical = Dimens.four_dp),
-                    stringResource(R.string.book_image)
+                    book.smallThumbnail,
+                    Modifier.fillMaxWidth().height(Dimens.hundred_dp)
+                    .padding(Dimens.four_dp),
+                    R.drawable.ic_book_placeholder,
+                    R.drawable.ic_book_placeholder,
+                    Scale.FILL,
+                    ContentScale.Fit,
+                    stringResource(R.string.book_image),
+                    CachePolicy.ENABLED
                 )
                 Text(
                     text = book.bookTitle,
@@ -96,7 +101,7 @@ fun ItemCard(book: BooksListModel, navController: NavController) {
                 Spacer(modifier = Modifier.height(Dimens.ten_dp))
                 if (book.bookAuthor.isNotEmpty()) {
                     Text(
-                        text = "Written By: " + book.bookAuthor,
+                        text = stringResource(R.string.written_by, book.bookAuthor),
                         style = MaterialTheme.typography.bodyMedium,
                         textAlign = TextAlign.Center,
                         modifier = Modifier.fillMaxWidth()
@@ -109,7 +114,7 @@ fun ItemCard(book: BooksListModel, navController: NavController) {
 }
 
 
-fun onClick(book: BooksListModel, navController: NavController) {
+private fun onClick(book: BooksListModel, navController: NavController) {
     navController.navigate(Routes.BookDetailScreen.route + "/${book.bookId}")
 }
 

@@ -1,5 +1,6 @@
 package com.neeraj.booksapp.data.mapper
 
+import com.neeraj.booksapp.common.Resources
 import com.neeraj.booksapp.data.model.BooksDetailResponseModel
 import com.neeraj.booksapp.data.model.BooksListResponseModel
 import com.neeraj.booksapp.domain.model.BookDetailModel
@@ -13,39 +14,37 @@ import javax.inject.Inject
  */
 class BookMapper @Inject constructor() {
 
-    fun getBooksList(booksListResponseModel: BooksListResponseModel) : List<BooksListModel> {
+    fun getBooksList(booksListResponseModel: BooksListResponseModel) : Resources<List<BooksListModel>> {
         val bookList = mutableListOf<BooksListModel>()
         var id: String
-        booksListResponseModel.items?.forEach { item ->
-            item.volumeInfo?.let { volumeInfo ->
+        booksListResponseModel.items.forEach { item ->
+            item.volumeInfo.let { volumeInfo ->
                 id = item.id
                 val book = BooksListModel(
                     id,
-                    volumeInfo.title.orEmpty(),
-                    volumeInfo.authors?.joinToString(", ").orEmpty(),
-                    volumeInfo.imageLinks?.thumbnail?.replace("http://", "https://").orEmpty()
+                    volumeInfo.title,
+                    volumeInfo.authors.joinToString(", "),
+                    volumeInfo.imageLinks.thumbnail.replace("http://", "https://")
                 )
-                book.let { bookList.add(it) }
+                bookList.add(book)
             }
         }
-        return bookList
+        return Resources.Success(bookList)
     }
 
 
-    fun getBookDetail(bookDetailListResponseModel : BooksDetailResponseModel) : BookDetailModel? {
-        var bookDetail : BookDetailModel? = null
-        bookDetailListResponseModel.volumeInfo?.let { volumeInfo ->
-                   bookDetail = BookDetailModel(
-                    volumeInfo.title.orEmpty(),
-                    volumeInfo.subtitle.orEmpty(),
-                    volumeInfo.authors?.joinToString(", ").orEmpty(),
-                    volumeInfo.publisher.orEmpty(),
-                    volumeInfo.publishedDate.orEmpty(),
-                    volumeInfo.imageLinks?.thumbnail?.replace("http://", "https://").orEmpty(),
-                    volumeInfo.ratingsCount.orEmpty()
+    fun getBookDetail(bookDetailResponseModel : BooksDetailResponseModel) : Resources<BookDetailModel> {
+        return bookDetailResponseModel.volumeInfo.let { volumeInfo ->
+            Resources.Success(
+                   BookDetailModel(
+                    volumeInfo.title,
+                    volumeInfo.subtitle,
+                    volumeInfo.authors.joinToString(", "),
+                    volumeInfo.publisher,
+                    volumeInfo.publishedDate,
+                    volumeInfo.imageLinks.thumbnail.replace("http://", "https://")
                 )
-            }
-        return bookDetail
+            )
+        }
     }
-
 }

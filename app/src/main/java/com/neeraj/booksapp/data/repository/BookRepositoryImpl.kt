@@ -1,7 +1,11 @@
 package com.neeraj.booksapp.data.repository
 
-import com.neeraj.booksapp.common.InternetUtil.Companion.isInternetAvailable
-import com.neeraj.booksapp.common.Resource
+import com.neeraj.booksapp.common.Constants
+import com.neeraj.booksapp.common.IOError
+import com.neeraj.booksapp.common.DataError
+import com.neeraj.booksapp.common.InternetError
+import com.neeraj.booksapp.common.InternetUtil
+import com.neeraj.booksapp.common.Resources
 import com.neeraj.booksapp.data.mapper.BookMapper
 import com.neeraj.booksapp.data.network.ApiService
 import com.neeraj.booksapp.domain.model.BookDetailModel
@@ -9,9 +13,8 @@ import com.neeraj.booksapp.domain.model.BooksListModel
 import com.neeraj.booksapp.domain.respository.BookRepository
 import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.withContext
+import java.io.IOException
 
 /**
  * @author Neeraj Manchanda
@@ -23,60 +26,61 @@ class BookRepositoryImpl @Inject constructor(
     private val bookMapper: BookMapper
 ) : BookRepository {
 
-    override suspend fun getBooksList(): Resource<List<BooksListModel>> =
-        withContext(Dispatchers.IO) {
-            if (isInternetAvailable()) {
+    @Inject
+    lateinit var internetUtil: InternetUtil
+
+    override suspend fun getBooksList(): Resources<List<BooksListModel>> {
+        return withContext(Dispatchers.IO) {
+            if (internetUtil.isInternetAvailable()) {
                 try {
                     val bookListResponse = apiService.getBooksList()
                     if (bookListResponse.isSuccessful) {
                         val bookListModel = bookListResponse.body()
-                        Resource.Success(bookListModel?.let {
+                        return@withContext bookListModel?.let {
                             bookMapper.getBooksList(it)
-                        })
+                        } ?: Resources.Failure(IOError(bookListResponse.code(), bookListResponse.errorBody()?.toString() ?: Constants.ErrorMessage)) // Provide an empty list if bookListModel is null
                     } else {
-                        Resource.IOError(
-                            bookListResponse.code(),
-                            bookListResponse.errorBody()?.string()
+                        return@withContext Resources.Failure(
+                            IOError(
+                                bookListResponse.code(),
+                                bookListResponse.errorBody()?.string()
+                            )
                         )
                     }
                 } catch (exception: Exception) {
-                    Resource.Error(exception.message)
+                    return@withContext Resources.Failure(DataError(exception.message ?: Constants.ErrorMessage))
                 }
             } else {
-                Resource.InternetError()
-            }
-        }
-
-    override suspend fun getBookDetail(bookId: String): Resource<BookDetailModel> {
-        return coroutineScope {
-            val internetAvailable = isInternetAvailable()
-
-            if (!internetAvailable) {
-                return@coroutineScope Resource.InternetError()
-            }
-
-            try {
-                val bookDetailResponseDeferred = async(Dispatchers.IO) {
-                    apiService.getBookDetail(bookId)
-                }
-
-                val bookDetailResponse = bookDetailResponseDeferred.await()
-
-                if (bookDetailResponse.isSuccessful) {
-                    val bookDetailModel = bookDetailResponse.body()
-                    return@coroutineScope Resource.Success(bookDetailModel?.let {
-                        bookMapper.getBookDetail(it)
-                    })
-                } else {
-                    return@coroutineScope Resource.IOError(
-                        bookDetailResponse.code(),
-                        bookDetailResponse.errorBody()?.string()
-                    )
-                }
-            } catch (exception: Exception) {
-                return@coroutineScope Resource.Error(exception.message)
+                return@withContext Resources.Failure(InternetError(Constants.InternetErrorMessage))
             }
         }
     }
 
+
+    override suspend fun getBookDetail(bookId: String): Resources<BookDetailModel> {
+        return withContext(Dispatchers.IO) {
+            if (internetUtil.isInternetAvailable()) {
+                try {
+                    val bookDetailResponse = apiService.getBookDetail(bookId)
+                    if (bookDetailResponse.isSuccessful) {
+                        val movieDetailModel = bookDetailResponse.body()
+                        return@withContext movieDetailModel?.let {
+                            bookMapper.getBookDetail(it)
+                        } ?: Resources.Failure(
+                            IOError(
+                                bookDetailResponse.code(),
+                                bookDetailResponse.errorBody()?.toString()
+                            )
+                        )
+                    }
+                } catch (e: IOException) {
+                    return@withContext Resources.Failure(DataError(e.message))
+                }
+                return@withContext Resources.Failure(DataError(Constants.ErrorMessage))
+            }
+            else {
+                return@withContext Resources.Failure(InternetError(Constants.InternetErrorMessage))
+            }
+        }
+    }
 }

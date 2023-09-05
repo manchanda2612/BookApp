@@ -7,7 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import com.neeraj.booksapp.presentation.nav_graph.NavigationGraph
+import com.neeraj.booksapp.presentation.navgraph.NavigationGraph
 import com.neeraj.booksapp.ui.theme.BooksAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 

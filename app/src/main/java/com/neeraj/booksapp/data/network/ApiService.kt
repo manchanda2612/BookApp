@@ -17,7 +17,7 @@ interface ApiService {
         @GET("volumes")
         suspend fun getBooksList(
             @Query("key") key: String = BuildConfig.API_KEY,
-            @Query("q") query: String = "Kotlin",
+            @Query("q") query: String = "Android",
         ): Response<BooksListResponseModel>
 
         @GET("volumes/{bookId}")

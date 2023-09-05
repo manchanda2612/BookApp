@@ -11,6 +11,5 @@ data class BookDetailModel (
     val bookAuthors : String,
     val publisher : String,
     val publishDate : String,
-    val thumbnail : String,
-    val rating : String
+    val thumbnail : String
 )

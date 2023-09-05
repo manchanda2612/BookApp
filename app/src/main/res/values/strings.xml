@@ -5,4 +5,7 @@
     <string name="book_listing">Book Listing</string>
     <string name="book_info">Book Info</string>
     <string name="back">Back</string>
+    <string name="written_by">"Written By: %1$s"</string>
+    <string name="published_on">Published On: %1$s</string>
+    <string name="published_by">Published By: %1$s</string>
 </resources>

@@ -1,0 +1,14 @@
+{
+  "volumeInfo": {
+    "title": "Android Programming with Kotlin for Beginners",
+    "subtitle": "Build Android apps starting from zero programming experience with the new Kotlin programming language",
+    "authors": [
+      "John Horton"
+    ],
+    "publisher": "Packt Publishing Ltd",
+    "publishedDate": "2019-04-30",
+    "imageLinks": {
+      "thumbnail": "http://books.google.com/books/publisher/content?id=CzCWDwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&imgtk=AFLRE728TaELdBYOUqgU7ilCQse-3Jlo0Q6zQK4QNYNTbK_mhNs-KdBb40KvneoZbAG8cE0kb8zjPdCReY8SmQtx4jyTRG8T5FRJfVXzj6cer87QLSGBxnpOmX4B3UHQYedTkuB8uhRF&source=gbs_api"
+    }
+  }
+}

@@ -1,6 +1,6 @@
 package com.neeraj.booksapp.domain.respository
 
-import com.neeraj.booksapp.common.Resource
+import com.neeraj.booksapp.common.Resources
 import com.neeraj.booksapp.domain.model.BookDetailModel
 import com.neeraj.booksapp.domain.model.BooksListModel
 
@@ -11,6 +11,6 @@ import com.neeraj.booksapp.domain.model.BooksListModel
  */
 interface BookRepository {
 
-    suspend fun getBooksList() : Resource<List<BooksListModel>>
-    suspend fun getBookDetail(bookId : String) : Resource<BookDetailModel>
+    suspend fun getBooksList() : Resources<List<BooksListModel>>
+    suspend fun getBookDetail(bookId : String) : Resources<BookDetailModel>
 }

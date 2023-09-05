@@ -1,21 +1,23 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
-    id 'com.google.dagger.hilt.android'
     id 'kotlin-kapt'
+    id 'com.google.dagger.hilt.android'
 }
 
+apply from: rootProject.file('dependencies.gradle')
+
 android {
-    namespace 'com.neeraj.booksapp'
-    compileSdk 33
+
+    namespace rootProject.ext.app_config.applicationId
+    compileSdk rootProject.ext.app_config.compileSdkVersion
 
     defaultConfig {
-        applicationId "com.neeraj.booksapp"
-        minSdk 24
-        //noinspection OldTargetApi
-        targetSdk 33
-        versionCode 1
-        versionName "1.0"
+        applicationId rootProject.ext.app_config.applicationId
+        minSdk rootProject.ext.app_config.minSdkVersion
+        targetSdk rootProject.ext.app_config.targetSdkVersion
+        versionCode rootProject.ext.app_config.versionCode
+        versionName rootProject.ext.app_config.versionName
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -39,73 +41,66 @@ android {
     productFlavors {
         bookDemo {
             dimension "environment"
-            applicationId "com.neeraj.newsapp.demo"
+            applicationId rootProject.ext.app_config.applicationId
             buildConfigField "String", "BASE_URL", '"https://www.googleapis.com/books/v1/"'
             buildConfigField("String", "API_KEY", '"AIzaSyDYqtpidHOCEj8zv7E_gRrmNMYAw7JBz6g"')
         }
     }
-
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_17
-        targetCompatibility JavaVersion.VERSION_17
+        sourceCompatibility rootProject.ext.app_config.javaVersion
+        targetCompatibility rootProject.ext.app_config.javaVersion
     }
     kotlinOptions {
-        jvmTarget = '17'
+        jvmTarget = rootProject.ext.app_config.jvmTarget
     }
-    buildFeatures {
-        compose true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion '1.4.3'
-    }
+
+
     packagingOptions {
         resources {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
         }
     }
-        buildFeatures {
-            buildConfig = true
-        }
 
+    buildFeatures {
+        compose true
+        buildConfig = true
+    }
+}
+
+// Allow references to generated code
+kapt {
+    correctErrorTypes true
 }
 
 dependencies {
+    testImplementation rootProject.ext.testDependencies.junit
+    androidTestImplementation platform(rootProject.ext.dependencies.composeBom)
+    androidTestImplementation rootProject.ext.testDependencies.composeUiTest
+    debugImplementation rootProject.ext.testDependencies.composeUiTooling
+    debugImplementation rootProject.ext.testDependencies.composeUiManifest
+    testImplementation rootProject.ext.testDependencies.mockk
+    testImplementation rootProject.ext.dependencies.gson
+    testImplementation rootProject.ext.testDependencies.coroutinesTest
 
-    implementation 'androidx.core:core-ktx:1.10.1'
-    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.6.1'
-    implementation 'androidx.activity:activity-compose:1.7.2'
-    implementation platform('androidx.compose:compose-bom:2023.03.00')
-    implementation 'androidx.compose.ui:ui'
-    implementation 'androidx.compose.ui:ui-graphics'
-    implementation 'androidx.compose.ui:ui-tooling-preview'
-    implementation 'androidx.compose.material3:material3'
-    implementation 'androidx.hilt:hilt-navigation-compose:1.1.0-alpha01'
-    testImplementation 'junit:junit:4.13.2'
-    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.1"
-    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
-    androidTestImplementation platform('androidx.compose:compose-bom:2023.03.00')
-    androidTestImplementation 'androidx.compose.ui:ui-test-junit4'
-    debugImplementation 'androidx.compose.ui:ui-tooling'
-    debugImplementation 'androidx.compose.ui:ui-test-manifest'
+    implementation rootProject.ext.dependencies.coreJetpack
+    implementation rootProject.ext.dependencies.material
+    implementation rootProject.ext.dependencies.hilt
+    kapt rootProject.ext.dependencies.hiltCompiler
+    implementation rootProject.ext.dependencies.lifecycleExtension
+    implementation rootProject.ext.dependencies.lifecycleRuntime
+    implementation platform(rootProject.ext.dependencies.composeBom)
+    implementation rootProject.ext.dependencies.composeUi
+    implementation rootProject.ext.dependencies.composeGraphics
+    implementation rootProject.ext.dependencies.composeActivity
+    implementation rootProject.ext.dependencies.composeUiTooling
+    implementation rootProject.ext.dependencies.composeMaterial3
+    implementation rootProject.ext.dependencies.coilCompose
+    implementation rootProject.ext.dependencies.composeConstraint
+    implementation rootProject.ext.dependencies.composeNavigation
+    implementation rootProject.ext.dependencies.hiltCompose
+    implementation rootProject.ext.dependencies.composeMaterial
+    implementation rootProject.ext.dependencies.gson
+    implementation rootProject.ext.dependencies.retrofit
+    implementation rootProject.ext.dependencies.retrofitConverter
 
-    // mockk
-    testImplementation 'io.mockk:mockk:1.12.4'
-
-    // navigation graph
-    //noinspection GradleDependency
-    implementation 'androidx.navigation:navigation-compose:2.5.3'
-
-    // Dagger Hilt
-    implementation 'com.google.dagger:hilt-android:2.44'
-    kapt 'com.google.dagger:hilt-compiler:2.44'
-    implementation 'androidx.hilt:hilt-navigation-compose:1.0.0'
-
-    // coil
-    implementation 'io.coil-kt:coil-compose:2.4.0'
-
-    // Retrofit
-    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
-    implementation 'com.google.code.gson:gson:2.10.1'
 }
