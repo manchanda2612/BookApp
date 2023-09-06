@@ -3,21 +3,24 @@ package com.neeraj.booksapp.common
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
-import dagger.hilt.android.qualifiers.ApplicationContext
-import javax.inject.Inject
+import com.neeraj.booksapp.BookApplication
 
 /**
  * @author Neeraj Manchanda
  * Network Utility class that helps to check whether user has internet connection or not,
  * before performing network-related operations, such as making API calls.
  */
-class InternetUtil @Inject constructor(@ApplicationContext private val context: Context) {
+class InternetUtil {
 
+
+    companion object {
         fun isInternetAvailable(): Boolean {
 
-            val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+            val connectivityManager =
+                BookApplication.applicationContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
             val networkCapabilities = connectivityManager.activeNetwork ?: return false
-            val activeNetwork = connectivityManager.getNetworkCapabilities(networkCapabilities) ?: return false
+            val activeNetwork =
+                connectivityManager.getNetworkCapabilities(networkCapabilities) ?: return false
 
             return when {
                 activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
@@ -26,4 +29,5 @@ class InternetUtil @Inject constructor(@ApplicationContext private val context: 
                 else -> false
             }
         }
+    }
 }

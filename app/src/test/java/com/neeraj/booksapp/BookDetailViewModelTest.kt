@@ -3,11 +3,11 @@ package com.neeraj.booksapp
 import com.neeraj.booksapp.common.Constants
 import com.neeraj.booksapp.common.DataError
 import com.neeraj.booksapp.common.Resources
-import com.neeraj.booksapp.domain.usecases.GetBookDetailUseCase
 import com.neeraj.booksapp.presentation.viewmodel.BookDetailViewModel
 import com.neeraj.booksapp.testutil.TestUtils
 import com.neeraj.booksapp.testutil.bookDetailModelFile
 import com.neeraj.booksapp.testutil.bookId
+import com.neeraj.domain.usecases.GetBookDetailUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.mockk.coEvery
 import io.mockk.coVerify

@@ -3,10 +3,10 @@ package com.neeraj.booksapp
 import com.neeraj.booksapp.common.Constants
 import com.neeraj.booksapp.common.DataError
 import com.neeraj.booksapp.common.Resources
-import com.neeraj.booksapp.domain.usecases.GetBookListUseCase
 import com.neeraj.booksapp.presentation.viewmodel.BookListViewModel
 import com.neeraj.booksapp.testutil.TestUtils
 import com.neeraj.booksapp.testutil.bookListModelFile
+import com.neeraj.domain.usecases.GetBookListUseCase
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk

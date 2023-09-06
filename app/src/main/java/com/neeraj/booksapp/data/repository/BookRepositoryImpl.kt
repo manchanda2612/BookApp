@@ -26,12 +26,9 @@ class BookRepositoryImpl @Inject constructor(
     private val bookMapper: BookMapper
 ) : BookRepository {
 
-    @Inject
-    lateinit var internetUtil: InternetUtil
-
     override suspend fun getBooksList(): Resources<List<BooksListModel>> {
         return withContext(Dispatchers.IO) {
-            if (internetUtil.isInternetAvailable()) {
+            if (InternetUtil.isInternetAvailable()) {
                 try {
                     val bookListResponse = apiService.getBooksList()
                     if (bookListResponse.isSuccessful) {
@@ -59,7 +56,7 @@ class BookRepositoryImpl @Inject constructor(
 
     override suspend fun getBookDetail(bookId: String): Resources<BookDetailModel> {
         return withContext(Dispatchers.IO) {
-            if (internetUtil.isInternetAvailable()) {
+            if (InternetUtil.isInternetAvailable()) {
                 try {
                     val bookDetailResponse = apiService.getBookDetail(bookId)
                     if (bookDetailResponse.isSuccessful) {

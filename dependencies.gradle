@@ -1,0 +1,80 @@
+ext {
+
+    //App level Version
+    app_config = [
+            compileSdkVersion: 33,
+            minSdkVersion    : 24,
+            targetSdkVersion : 33,
+            versionCode      : 1,
+            versionName      : "1.0",
+            buildToolsVersion: "30.0.2",
+            jvmTarget        : '1.8',
+            applicationId    : 'com.neeraj.booksapp',
+            javaVersion      : JavaVersion.VERSION_1_8
+    ]
+
+    //root gradle version
+    applicationVersion = '8.0.1'
+    kotlinVersion = '1.7.20'
+    androidLibraryVersion = '8.0.1'
+    hiltVersion = '2.44'
+
+    //Library Version
+    gsonVersion = '2.10.1'
+    retrofitVersion = '2.9.0'
+    hilt = '2.44'
+    material = '1.9.0'
+    lifecycleExtension = '2.2.0'
+    logInterceptor = "4.9.1"
+    coilCompose = '2.4.0'
+    hiltCompose = '1.1.0-alpha01'
+    lifecycleRuntime = "2.6.1"
+
+    //compose library versions
+    composeBom = '2022.10.00'
+    composeUi = '1.0.0'
+    composeActivity = '1.7.2'
+    composeMaterial = '1.4.3'
+    composeConstraint = '1.1.0-alpha10'
+    coreKtx = '1.10.1'
+    composeNavigation = '2.5.3'
+
+    //Test library version
+    junit = '4.13.2'
+    coroutinesTest = '1.6.4'
+    mockk = '1.12.0'
+
+
+    dependencies = [
+            retrofit          : "com.squareup.retrofit2:retrofit:${retrofitVersion}",
+            retrofitConverter : "com.squareup.retrofit2:converter-gson:${retrofitVersion}",
+            gson              : "com.google.code.gson:gson:${gsonVersion}",
+            hiltCompiler      : "com.google.dagger:hilt-compiler:${hilt}",
+            hilt              : "com.google.dagger:hilt-android:${hilt}",
+            material          : "com.google.android.material:material:${material}",
+            lifecycleExtension: "androidx.lifecycle:lifecycle-extensions:${lifecycleExtension}",
+            lifecycleRuntime  : "androidx.lifecycle:lifecycle-runtime-ktx:${lifecycleRuntime}",
+            logInterceptor    : "com.squareup.okhttp3:logging-interceptor:${logInterceptor}",
+            composeBom        : "androidx.compose:compose-bom:${composeBom}",
+            composeActivity   : "androidx.activity:activity-compose:${composeActivity}",
+            composeUi         : "androidx.compose.ui:ui:${composeUi}",
+            composeGraphics   : "androidx.compose.ui:ui-graphics",
+            composeUiTooling  : "androidx.compose.ui:ui-tooling-preview",
+            composeMaterial3  : "androidx.compose.material3:material3",
+            composeMaterial   : "androidx.compose.material:material:${composeMaterial}",
+            composeConstraint : "androidx.constraintlayout:constraintlayout-compose:${composeConstraint}",
+            composeNavigation: "androidx.navigation:navigation-compose:${composeNavigation}",
+            coilCompose       : "io.coil-kt:coil-compose:${coilCompose}",
+            hiltCompose       : "androidx.hilt:hilt-navigation-compose:${hiltCompose}",
+            coreJetpack       : "androidx.core:core-ktx:${coreKtx}"
+    ]
+    testDependencies = [
+            junit            : "junit:junit:${junit}",
+            coroutinesTest   : "org.jetbrains.kotlinx:kotlinx-coroutines-test:${coroutinesTest}",
+            mockk            : "io.mockk:mockk:${mockk}",
+            composeUiTest    : "androidx.compose.ui:ui-test-junit4",
+            composeUiTooling : "androidx.compose.ui:ui-tooling",
+            composeUiManifest: "androidx.compose.ui:ui-test-manifest"
+    ]
+
+}

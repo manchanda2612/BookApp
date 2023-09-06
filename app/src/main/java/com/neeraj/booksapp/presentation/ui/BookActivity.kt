@@ -1,4 +1,4 @@
-package com.neeraj.booksapp
+package com.neeraj.booksapp.presentation.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity

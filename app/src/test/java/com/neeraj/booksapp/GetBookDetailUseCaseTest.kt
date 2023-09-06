@@ -4,10 +4,10 @@ import com.neeraj.booksapp.common.Constants
 import com.neeraj.booksapp.common.DataError
 import com.neeraj.booksapp.common.Resources
 import com.neeraj.booksapp.domain.respository.BookRepository
-import com.neeraj.booksapp.domain.usecases.GetBookDetailUseCase
 import com.neeraj.booksapp.testutil.TestUtils
 import com.neeraj.booksapp.testutil.bookDetailModelFile
 import com.neeraj.booksapp.testutil.bookId
+import com.neeraj.domain.usecases.GetBookDetailUseCase
 import io.mockk.coEvery
 import io.mockk.mockk
 import junit.framework.TestCase.assertEquals
