@@ -38,6 +38,8 @@ ext {
     composeConstraint = '1.1.0-alpha10'
     coreKtx = '1.10.1'
     composeNavigation = '2.5.3'
+    kotlinBom = '1.8.0'
+    appCompat = '1.6.1'
 
     //Test library version
     junit = '4.13.2'
@@ -66,7 +68,9 @@ ext {
             composeNavigation: "androidx.navigation:navigation-compose:${composeNavigation}",
             coilCompose       : "io.coil-kt:coil-compose:${coilCompose}",
             hiltCompose       : "androidx.hilt:hilt-navigation-compose:${hiltCompose}",
-            coreJetpack       : "androidx.core:core-ktx:${coreKtx}"
+            coreJetpack       : "androidx.core:core-ktx:${coreKtx}",
+            kotlinBom         : "org.jetbrains.kotlin:kotlin-bom:${kotlinBom}",
+            appCompat         : "androidx.appcompat:appcompat:${appCompat}"
     ]
     testDependencies = [
             junit            : "junit:junit:${junit}",

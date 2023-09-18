@@ -1,70 +1,76 @@
 plugins {
-    id 'com.android.application'
+    id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
     id 'com.google.dagger.hilt.android'
 }
 
-apply from: '../dependencies.gradle'
-
 android {
 
-    namespace rootProject.ext.app_config.applicationId
+    ext {
+        nameSpace = 'com.neeraj.data'
+    }
+    namespace "$nameSpace"
     compileSdk rootProject.ext.app_config.compileSdkVersion
 
     defaultConfig {
-        applicationId rootProject.ext.app_config.applicationId
         minSdk rootProject.ext.app_config.minSdkVersion
         targetSdk rootProject.ext.app_config.targetSdkVersion
-        versionCode rootProject.ext.app_config.versionCode
-        versionName rootProject.ext.app_config.versionName
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        vectorDrawables {
-            useSupportLibrary true
-        }
+        consumerProguardFiles "consumer-rules.pro"
     }
 
     buildTypes {
         debug {
-            applicationIdSuffix ".debug"
             minifyEnabled false
         }
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
         }
     }
-
 
     flavorDimensions "environment"
     productFlavors {
         bookDemo {
             dimension "environment"
-            applicationId rootProject.ext.app_config.applicationId
-            buildConfigField "String", "BASE_URL", '"https://www.googleapis.com/books/v1/"'
-            buildConfigField("String", "API_KEY", '"AIzaSyDYqtpidHOCEj8zv7E_gRrmNMYAw7JBz6g"')
+            buildConfigField("String", "API_KEY", API_KEY)
+            buildConfigField("String", "BASE_URL", BASE_URL)
         }
     }
+
     compileOptions {
         sourceCompatibility rootProject.ext.app_config.javaVersion
         targetCompatibility rootProject.ext.app_config.javaVersion
     }
-
     kotlinOptions {
         jvmTarget = rootProject.ext.app_config.jvmTarget
     }
+
     buildFeatures {
         buildConfig = true
     }
 }
 
-// Allow references to generated code
-kapt {
-    correctErrorTypes true
-}
-
 dependencies {
+
+    /*implementation rootProject.ext.dependencies.coreJetpack
+    implementation platform(rootProject.ext.dependencies.kotlinBom)
+    implementation rootProject.ext.dependencies.appCompat
+    implementation rootProject.ext.dependencies.material
+
+
+    testImplementation rootProject.ext.testDependencies.junit
+    testImplementation rootProject.ext.testDependencies.mockk
+    testImplementation rootProject.ext.testDependencies.coroutinesTest
+
+    implementation rootProject.ext.dependencies.hilt
+    kapt rootProject.ext.dependencies.hiltCompiler
+    implementation rootProject.ext.dependencies.retrofit
+    implementation rootProject.ext.dependencies.retrofitConverter*/
+
     testImplementation rootProject.ext.testDependencies.junit
     androidTestImplementation platform(rootProject.ext.dependencies.composeBom)
     androidTestImplementation rootProject.ext.testDependencies.composeUiTest
@@ -95,10 +101,10 @@ dependencies {
     implementation rootProject.ext.dependencies.retrofit
     implementation rootProject.ext.dependencies.retrofitConverter
 
-
+    //common module
     implementation project(path: ':common')
-    implementation project(path: ':features:bookinfo:data')
+    //domain module
     implementation project(path: ':features:bookinfo:domain')
-    implementation project(path: ':features:bookinfo:presentation')
+
 
 }

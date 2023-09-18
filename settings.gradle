@@ -15,3 +15,7 @@ dependencyResolutionManagement {
 
 rootProject.name = "BooksApp"
 include ':app'
+include ':features:bookinfo:data'
+include ':features:bookinfo:domain'
+include ':features:bookinfo:presentation'
+include ':common'
