@@ -7,6 +7,7 @@ import dagger.hilt.android.HiltAndroidApp
 /**
  * @author Neeraj Manchanda
  */
+@Suppress("unused")
 @HiltAndroidApp
 class BookApplication : Application() {
     init {

@@ -9,7 +9,6 @@ import com.neeraj.domain.model.BookDetailModel
 import com.neeraj.domain.model.BooksListModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import retrofit2.Response
 import java.nio.file.Files
 import java.nio.file.Paths
 
@@ -52,13 +51,6 @@ class TestUtils {
                     Resources.Failure(DataError(e.message ?: Constants.ErrorMessage))
                 }
             }
-        }
-
-        inline fun <reified T> parseJSONToResponse(jsonString: String): Response<T> {
-            val gson = Gson()
-            val responseType = object : TypeToken<T>() {}.type
-            val result = gson.fromJson<T>(jsonString, responseType)
-            return Response.success(result)
         }
     }
 }

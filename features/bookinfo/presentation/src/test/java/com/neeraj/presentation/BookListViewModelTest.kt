@@ -43,7 +43,6 @@ class BookListViewModelTest {
         testDispatcher.cancel()
     }
 
-
      @Test
      fun `when viewModel is created, it should call getBookListUseCase`() = runTest {
 
@@ -55,6 +54,7 @@ class BookListViewModelTest {
 
          // Then
          coVerify { getBookListUseCase() }
+
      }
 
 

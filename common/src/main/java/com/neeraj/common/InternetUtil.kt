@@ -12,11 +12,12 @@ import javax.inject.Inject
  */
 class InternetUtil {
 
-    @Inject
-    lateinit var applicationContext: Context
-        fun isInternetAvailable(): Boolean {
+        @Inject
+        lateinit var applicationContext: Context
+         fun isInternetAvailable(): Boolean {
 
-            val connectivityManager = applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+            val connectivityManager = applicationContext
+                .getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
             val networkCapabilities = connectivityManager.activeNetwork ?: return false
             val activeNetwork =
                 connectivityManager.getNetworkCapabilities(networkCapabilities) ?: return false
