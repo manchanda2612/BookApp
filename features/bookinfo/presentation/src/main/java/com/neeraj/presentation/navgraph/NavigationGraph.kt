@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.neeraj.presentation.constant.UiConstants
 import com.neeraj.presentation.screens.BookListScreen
 import com.neeraj.presentation.route.Routes
 import com.neeraj.presentation.screens.BookDetailScreen
@@ -26,7 +27,7 @@ fun NavigationGraph() {
         }
 
         composable(Routes.BookDetailScreen.route + "/{bookId}") { navBackStackEntry ->
-            val bookId = navBackStackEntry.arguments?.getString("bookId")
+            val bookId = navBackStackEntry.arguments?.getString(UiConstants.bookId)
             bookId?.let { BookDetailScreen(it, navController) }
         }
     }
