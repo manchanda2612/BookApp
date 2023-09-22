@@ -1,0 +1,94 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'com.google.dagger.hilt.android'
+}
+apply from: rootProject.file('dependencies.gradle')
+
+android {
+    ext {
+        nameSpace = 'com.neeraj.domain'
+    }
+    namespace "$nameSpace"
+    compileSdk rootProject.ext.app_config.compileSdkVersion
+
+    defaultConfig {
+        minSdk rootProject.ext.app_config.minSdkVersion
+        targetSdk rootProject.ext.app_config.targetSdkVersion
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        debug {
+            minifyEnabled false
+        }
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
+        }
+    }
+
+    flavorDimensions "environment"
+    productFlavors {
+        bookDemo {
+            dimension "environment"
+            buildConfigField("String", "API_KEY", API_KEY)
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility rootProject.ext.app_config.javaVersion
+        targetCompatibility rootProject.ext.app_config.javaVersion
+    }
+
+    kotlinOptions {
+        jvmTarget = rootProject.ext.app_config.jvmTarget
+    }
+
+    buildFeatures {
+        buildConfig = true
+    }
+
+}
+
+dependencies {
+
+    implementation rootProject.ext.dependencies.coreJetpack
+    implementation platform(rootProject.ext.dependencies.kotlinBom)
+    implementation rootProject.ext.dependencies.appCompat
+    implementation rootProject.ext.dependencies.material
+
+    testImplementation rootProject.ext.testDependencies.junit
+    androidTestImplementation platform(rootProject.ext.dependencies.composeBom)
+    androidTestImplementation rootProject.ext.testDependencies.composeUiTest
+    debugImplementation rootProject.ext.testDependencies.composeUiTooling
+    debugImplementation rootProject.ext.testDependencies.composeUiManifest
+    testImplementation rootProject.ext.testDependencies.mockk
+    testImplementation rootProject.ext.dependencies.gson
+    testImplementation rootProject.ext.testDependencies.coroutinesTest
+
+
+    implementation rootProject.ext.dependencies.hilt
+    kapt rootProject.ext.dependencies.hiltCompiler
+    implementation platform(rootProject.ext.dependencies.composeBom)
+    implementation rootProject.ext.dependencies.composeUi
+    implementation rootProject.ext.dependencies.composeGraphics
+    implementation rootProject.ext.dependencies.composeActivity
+    implementation rootProject.ext.dependencies.composeUiTooling
+    implementation rootProject.ext.dependencies.composeMaterial3
+    implementation rootProject.ext.dependencies.coilCompose
+    implementation rootProject.ext.dependencies.composeConstraint
+    implementation rootProject.ext.dependencies.composeNavigation
+    implementation rootProject.ext.dependencies.hiltCompose
+    implementation rootProject.ext.dependencies.composeMaterial
+    implementation rootProject.ext.dependencies.gson
+    implementation rootProject.ext.dependencies.retrofit
+    implementation rootProject.ext.dependencies.retrofitConverter
+
+    //common module
+    implementation project(path: ':common')
+}

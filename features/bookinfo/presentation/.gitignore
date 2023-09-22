@@ -1,0 +1,48 @@
+# macOS
+.DS_Store
+
+# Windows thumbnail cache files
+Thumbs.db
+
+# Android Studio files
+*.iml
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/vcs.xml
+.idea/caches/
+.idea/modules.xml
+.idea/namespaces/
+.idea/codeStyles/
+.idea/misc.xml
+.idea/dictionaries/
+
+# Android Emulator
+*.avd/
+*.ini
+
+
+# Android generated files
+app/build/
+captures/
+
+# Local configuration file (e.g., signing information)
+app/local.properties
+
+# Files for signing your app (keep these private)
+app/release.keystore
+
+gradle/wrapper/gradle-wrapper.jar
+gradle/wrapper/gradle-wrapper.properties
+
+
+# Android Studio / IntelliJ
+.idea/
+
+# Gradle files
+build/
+.gradle/
+local.properties
+
+# Compiled .class files
+*.class
+
