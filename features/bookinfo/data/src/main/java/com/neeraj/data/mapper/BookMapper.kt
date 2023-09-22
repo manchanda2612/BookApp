@@ -33,16 +33,16 @@ class BookMapper @Inject constructor() {
     }
 
 
-    fun getBookDetail(bookDetailResponseModel : BooksDetailResponseModel) : Resources<BookDetailModel> {
-        return bookDetailResponseModel.volumeInfo.let { volumeInfo ->
+    fun getBookDetail(bookDetailResponseModel: BooksDetailResponseModel): Resources<BookDetailModel> {
+        return bookDetailResponseModel.volumeInfo.run {
             Resources.Success(
-                   BookDetailModel(
-                    volumeInfo.title,
-                    volumeInfo.subtitle ?: "Subtitle not available",
-                    volumeInfo.authors.joinToString(", "),
-                    volumeInfo.publisher,
-                    volumeInfo.publishedDate,
-                    volumeInfo.imageLinks.thumbnail.replace("http://", "https://")
+                BookDetailModel(
+                    title,
+                    subtitle ?: "Subtitle not available",
+                    authors.joinToString(", "),
+                    publisher,
+                    publishedDate,
+                    imageLinks.thumbnail.replace("http://", "https://")
                 )
             )
         }
