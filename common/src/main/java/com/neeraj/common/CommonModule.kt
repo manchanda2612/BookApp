@@ -22,4 +22,9 @@ object CommonModule {
     fun provideApplicationContext(@ApplicationContext context: Context): Context {
         return context
     }
+
+    @Provides
+    fun provideInternetUtil(context: Context): InternetUtil {
+        return InternetUtil(context)
+    }
 }

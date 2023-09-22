@@ -10,10 +10,8 @@ import javax.inject.Inject
  * Network Utility class that helps to check whether user has internet connection or not,
  * before performing network-related operations, such as making API calls.
  */
-class InternetUtil {
+class InternetUtil @Inject constructor(private val applicationContext : Context) {
 
-        @Inject
-        lateinit var applicationContext: Context
          fun isInternetAvailable(): Boolean {
 
             val connectivityManager = applicationContext
