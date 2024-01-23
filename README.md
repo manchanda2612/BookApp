@@ -1,4 +1,7 @@
 # BookApp
+
+<img width="378" alt="BookListing" src="https://github.com/manchanda2612/BookApp/assets/13693987/67351e6f-9ead-4ff0-b183-d3a4910f5c88"><img width="380" alt="BookDetail" src="https://github.com/manchanda2612/BookApp/assets/13693987/f29a7e89-6d91-4139-9895-ca7575e8a3d7">
+
 The "BookApp" is a mobile application designed to provide users with a seamless experience of exploring and discovering books. The app has two primary screens: a book listing screen and a book detail screen.
 
 Book Listing Screen:
