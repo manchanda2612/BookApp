@@ -1,5 +1,6 @@
 package com.neeraj.data
 
+import com.neeraj.common.InternetUtil
 import com.neeraj.data.mapper.BookMapper
 import com.neeraj.data.model.BooksDetailResponseModel
 import com.neeraj.data.model.BooksListResponseModel
@@ -22,13 +23,14 @@ import org.junit.Test
 class BookRepositoryImplTest {
 
     // Mock dependencies
-    private val apiService: ApiService = mockk()
-    private val bookMapper: BookMapper = mockk()
+    private val apiService: ApiService = mockk<ApiService>()
+    private val bookMapper: BookMapper = mockk<BookMapper>()
+    private val internetUtil : InternetUtil = mockk<InternetUtil>()
     private lateinit var bookRepository: BookRepository
 
     @Before
     fun setUp() {
-        bookRepository = BookRepositoryImpl(apiService, bookMapper)
+        bookRepository = BookRepositoryImpl(apiService, bookMapper, internetUtil)
     }
 
     @Test
