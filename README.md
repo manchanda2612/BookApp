@@ -1,9 +1,8 @@
 # BookApp
-===============================================================================================
+=========================================================================================
 
 ### Description ###
 This sample app was built using MVVM architecture where I have used clean architecture, Jetpack compose, coroutine, Solid Principle, coin image rendering library, and Hilt dependency Framework.
------------------------------------------------------------------------------------------------
 
 <img width="378" alt="BookListing" src="https://github.com/manchanda2612/BookApp/assets/13693987/67351e6f-9ead-4ff0-b183-d3a4910f5c88"><img width="380" alt="BookDetail" src="https://github.com/manchanda2612/BookApp/assets/13693987/f29a7e89-6d91-4139-9895-ca7575e8a3d7">
 
